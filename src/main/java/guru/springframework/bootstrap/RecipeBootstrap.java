@@ -4,6 +4,8 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.repositories.reactive.CategoryReactiveRepository;
+import guru.springframework.repositories.reactive.RecipeReactiveRepository;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -28,13 +30,17 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
     private final UnitOfMeasureReactiveRepository uomReactiveRepository;
+    private final CategoryReactiveRepository categoryReactiveRepository;
+    private final RecipeReactiveRepository recipeReactiveRepository;
 
     public RecipeBootstrap(CategoryRepository categoryRepository,
-                           RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository, UnitOfMeasureReactiveRepository uomReactiveRepository) {
+                           RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository, UnitOfMeasureReactiveRepository uomReactiveRepository, CategoryReactiveRepository categoryReactiveRepository, RecipeReactiveRepository recipeReactiveRepository) {
         this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.uomReactiveRepository = uomReactiveRepository;
+        this.categoryReactiveRepository = categoryReactiveRepository;
+        this.recipeReactiveRepository = recipeReactiveRepository;
     }
 
     @Override
@@ -46,7 +52,22 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         log.debug("Loading Bootstrap Data");
 
         log.error("##########################################################################################");
-        log.error("Repo count: "+uomReactiveRepository.count().block().toString());
+        log.error("Unit of Measure");
+        log.error("##########################################################################################");
+        log.error("Repo count: "+unitOfMeasureRepository.count());
+        log.error("Reactive Repo count: "+uomReactiveRepository.count().block().toString());
+        log.error("##########################################################################################");
+        log.error("##########################################################################################");
+        log.error("Category");
+        log.error("##########################################################################################");
+        log.error("Repo count: "+categoryRepository.count());
+        log.error("Reactive Repo count: "+categoryReactiveRepository.count().block().toString());
+        log.error("##########################################################################################");
+        log.error("##########################################################################################");
+        log.error("Recipe");
+        log.error("##########################################################################################");
+        log.error("Repo count: "+recipeRepository.count());
+        log.error("Reactive Repo count: "+recipeReactiveRepository.count().block().toString());
         log.error("##########################################################################################");
     }
 
